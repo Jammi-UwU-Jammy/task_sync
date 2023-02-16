@@ -7,32 +7,46 @@ public class WordList {
 
     public WordList(){
         this.numberOfWords = 0;
-        this.wordMap = new HashMap<>();
+        //HashMap<String, Integer> map = new HashMap<>();
+        this.wordMap = new HashMap<Character, HashMap<String, Integer>>();
     }
 
+    public HashMap<Character, HashMap<String, Integer>> getMap(){
+        return this.wordMap;
+    }
 
     public void addWord(String word){
         this.numberOfWords++;
         
         if (pendingToList(word))
-            System.out.println("Added a new word: " + word);
-        else
             System.out.println("Word already exists: " + word);
+        else
+            System.out.println("Added a new word: " + word);
     }
 
 
     public boolean pendingToList(String word){
         char firstLetter = word.charAt(0);
 
-        if ( !this.wordMap.get(firstLetter).containsKey(word) ){
-            this.wordMap.get(firstLetter).put(word, 1);
+        //Map empty or the first letter doesn't exist
+        if (this.wordMap.isEmpty() || this.wordMap.get(firstLetter) == null){
+            HashMap<String, Integer> innerMap = new HashMap<>();
+            innerMap.put(word, 1);
+            this.wordMap.put(firstLetter, innerMap);
             return false;
         }
-        else {
+        //Map exists, first letter exists but not the word
+        else if (!this.wordMap.get(firstLetter).containsKey(word)){
+            this.wordMap.get(firstLetter).put(word, 1 );       
+            return false;  
+        } 
+        //Word already exists
+        else{
             int count = this.wordMap.get(firstLetter).get(word) + 1;
             this.wordMap.get(firstLetter).put(word, count);
             return true;
-        }  
+        }
+
     }
 
 

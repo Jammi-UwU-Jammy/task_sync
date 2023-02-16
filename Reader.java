@@ -8,11 +8,13 @@ public class Reader implements Runnable{
 
     private BufferedReader fileReader;
     private LinkedList<String> queue = new LinkedList<>();
+    public String path;
 
     public Reader(String path, LinkedList<String> queue){
         try {
             this.queue = queue;
             this.fileReader = new BufferedReader(new FileReader(path));
+            this.path = path;
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found, program exits.");
@@ -31,20 +33,13 @@ public class Reader implements Runnable{
 
                 for (String item : splitString){
                     this.queue.addLast(item);
-                    System.out.println("Added an item " + item);
+                    //System.out.println("Read an item: " + item);
                 }
-
-                /* try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } */
-
                 readString = fileReader.readLine();
             }
 
             queue.addLast("\u001A");
-            System.out.println("Reader - done.");
+            System.out.println("====READ - done.");
 
         } catch (IOException e) {
             System.out.println("Jesus Christ");
@@ -59,4 +54,13 @@ public class Reader implements Runnable{
         }
     }
     
+
+    public void setPath(String path){
+        try {
+            this.fileReader = new BufferedReader(new FileReader(path));
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+            e.printStackTrace();
+        }
+    }
 }
