@@ -36,7 +36,7 @@ public class Reader implements Runnable{
                 for (String item : splitString){
                     String filtered = filteredString(item);
                     this.queue.addLast(filtered);
-                    //System.out.println("Read an item: " + filtered);
+                    System.out.println("Read an item: " + filtered);
                 }
                 readString = fileReader.readLine();
             }

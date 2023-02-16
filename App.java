@@ -9,25 +9,30 @@ public class App{
     public static void main(String[] args) throws InterruptedException {
 
         LinkedList<String> queue = new LinkedList<>();
-        //LinkedList<String> readyQueue = new LinkedList<>();
+        Thread threads[] = new Thread[args.length];
 
-        // for (String arg : args){
-        //     System.out.println(arg);
-        //     Runnable r = new Reader(arg, queue);
-        //     r.run();
-        // }
+        //parallel
+        for (int i = 0; i < args.length ; ++i){
+            System.out.println(args[i]);
+            threads[i] = new Thread(new Reader(args[i], queue));
+            threads[i].start();
+        }
+        
+        //Sleep for 0.5s to make sure all data is loaded in queue before mapping them.
+        Thread.sleep(500);
 
-        Runnable r = new Reader(args[0], queue);
-        r.run();
-        Runnable r2 = new Reader(args[1], queue);
-        r2.run();
-
-        Runnable processor = new Processor(queue, args.length);
-        // for (String item : queue)
-        //     System.out.println(item);
-
+        //syncing
+        Processor processor = new Processor(queue);
         Thread thread = new Thread(processor);
         thread.start();
+
+        // while (true){
+        //     if (!thread.isAlive()){
+        //         processor.printMap();
+        //         break;
+        //     }  
+        // }
+            
             
 
     }

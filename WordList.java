@@ -18,7 +18,8 @@ public class WordList {
     public void addWord(String word){
         this.numberOfWords++;
 
-        System.out.println("Word existed?  " +  pendingToList(word));
+        pendingToList(word);
+        // System.out.println("Word existed?  " +  pendingToList(word));
     }
 
 
