@@ -6,12 +6,10 @@ import java.util.NoSuchElementException;
 public class Buffer implements Runnable{
 
     private LinkedList<String> queue;
-    private LinkedList<String> readyQueue;
     private String checkingTable[] = {"abcdefghijklmnopqrstuvwxyz","0123456789"};
 
-    public Buffer(LinkedList<String> buffer, LinkedList<String> readyBuffer){
+    public Buffer(LinkedList<String> buffer){
         this.queue = buffer;
-        this.readyQueue = readyBuffer;
     }
 
     @Override
@@ -21,12 +19,12 @@ public class Buffer implements Runnable{
                 String item = queue.getFirst(); //create a new string obj
                 
                 if (item.equals("\u001A")){ //terminating indicator
-                    readyQueue.addLast(item);
+                    queue.addLast(item);
                     System.out.println("====BUFFER - done.");
                     break;
                 }
                 String filtered = filteredString(item);
-                readyQueue.addLast(filtered);   //add it to the new queue
+                queue.addLast(filtered);   //add it to the new queue
                 //System.out.println("..Filtered an item: " + filtered);
                 queue.remove(item); //and destroy the original string obj
             }

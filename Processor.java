@@ -5,10 +5,12 @@ public class Processor implements Runnable{
 
     private WordList list;
     private LinkedList<String> readyQueue;
+    private int filecount;
 
-    public Processor(LinkedList<String> queue){
+    public Processor(LinkedList<String> queue, int filecount){
         this.list = new WordList();
         this.readyQueue = queue;
+        this.filecount = filecount;
     }
 
     public void loadWord(String word){
@@ -17,21 +19,23 @@ public class Processor implements Runnable{
 
     @Override
     public void run() {
-        while (true){
-            if (! readyQueue.isEmpty()){
+
+        while (! readyQueue.isEmpty()){
                 String item = readyQueue.getFirst();
 
                 if (item.equals("\u001A")){
-                    printMap(list);
-                    System.out.println("====Processor - done.");
-                    break;
-                }
-                
-                loadWord(item);
-                readyQueue.remove(item);
+                    readyQueue.remove(item);
+                    for (String i : this.readyQueue)
+                        System.out.println(i);
+                    System.out.println("====================");
+                }else{
+                    loadWord(item);
+                    System.out.println("....Counted an item: " + item);
+                    readyQueue.remove(item);
+                }     
                 //System.out.println("....Counted an item: " + item);
-            }   
         }
+        printMap(list);
     }
 
     public void printMap(WordList list){

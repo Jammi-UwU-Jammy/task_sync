@@ -17,11 +17,8 @@ public class WordList {
 
     public void addWord(String word){
         this.numberOfWords++;
-        
-        if (pendingToList(word))
-            System.out.println("Word already exists: " + word);
-        else
-            System.out.println("Added a new word: " + word);
+
+        System.out.println("Word existed?  " +  pendingToList(word));
     }
 
 
